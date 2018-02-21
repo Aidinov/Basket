@@ -23,21 +23,23 @@ class Basket
 
     }
 
-    public function update()
+    public function update(int $id, $value)
     {
 
     }
 
-    public function weight() {
-
-    }
-    
-    public function total()
+    public function weight(): float
     {
 
     }
     
-    public function totalItems() {
+    public function total(): float
+    {
+
+    }
+    
+    public function totalItems(): int
+    {
 
     }
 }
