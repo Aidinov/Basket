@@ -55,6 +55,9 @@ class Item implements JsonSerializable
      */
     public function update(string $key, $value): bool
     {
+        if ($key == 'id') {
+            throw new InvalidArgumentException("Can not update id.");
+        }
         if (array_key_exists($key, $this->attributes)) {
             $this->attributes[$key] = $value;
             return true;
