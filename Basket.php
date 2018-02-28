@@ -18,10 +18,15 @@ class Basket
     {
         $this->storage = $storage;
     }
-
-    public function has(): bool
+    
+    public function isEmpty(): bool
     {
-        return $this->storage->has();
+        return $this->storage->isEmpty();
+    }
+
+    public function has(int $id): bool
+    {
+        return $this->storage->has($id);
     }
 
     /**
@@ -31,7 +36,7 @@ class Basket
      */
     public function contents(): array
     {
-        return $this->storage->get();
+        return $this->storage->all();
     }
 
     /**
@@ -41,12 +46,21 @@ class Basket
      */
     public function item(int $id): Item
     {
-        return $this->storage->item($id);
+        return $this->storage->get($id);
     }
 
-    public function add(Item $item): void
+    /**
+     * Add an Item.
+     *
+     * @param Item $item
+     * @return void
+     */
+    public function add(Item $item): bool
     {
-        $this->storage->add($item);
+        if ($this->has($item->id)) {
+            $item->quantity = $this->item($item->id)->quantity + $item->quantity;
+        }
+        return $this->storage->add($item);
     }
     
     /**
@@ -60,13 +74,19 @@ class Basket
      */
     public function update(int $id, $key, $value = null): bool
     {
-        return $this->item($id)->update($key, $value);
+        $item = $this->item($id)->update($key, $value);
+        return $this->storage->replace($id, $item);
+    }
+
+    public function clear(): bool
+    {
+        return $this->storage->clear();
     }
 
     public function weight(): float
     {
         $weight = 0;
-        foreach ($this->storage->get() as $item) {
+        foreach ($this->contents() as $item) {
             if (array_key_exists('weight', $item)) {
                 $weight += $item->weight;
             }
@@ -84,7 +104,7 @@ class Basket
     public function total(): float
     {
         $total = 0;
-        foreach ($this->storage->get() as $item) {
+        foreach ($this->contents() as $item) {
             $total += $item->total;
         }
 
@@ -100,7 +120,7 @@ class Basket
     public function totalItems(bool $unique = false): int
     {
         $quantity = 0;
-        foreach ($this->storage->get() as $item) {
+        foreach ($this->contents() as $item) {
             $quantity += $unique ? 1 : $item->quantity;
         }
 
