@@ -24,9 +24,11 @@ interface StorageInterface
 
     public function add(Item $item): bool;
 
-    public function replace(int $id, Item $item): bool;
+    public function replace(Item $item): bool;
 
-    public function remove(array $keys): bool;
+    public function remove(int $id): bool;
 
     public function clear();
+
+    public function save();
 }
