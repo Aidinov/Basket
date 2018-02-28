@@ -59,35 +59,47 @@ class Basket
     {
         if ($this->has($item->id)) {
             $item->quantity = $this->item($item->id)->quantity + $item->quantity;
+            return $this->storage->replace($item);
         }
         return $this->storage->add($item);
     }
     
     /**
-     * Update a single key for this item, or multiple.
+     * Update a single key for this item.
      *
      * @param int          $id    Identifier of basket item
-     * @param array|string $key   The array key to update, or an array of key-value pairs to update
+     * @param string $key  The key attribute to update
      * @param null         $value
      *
      * @return bool
      */
     public function update(int $id, $key, $value = null): bool
     {
-        $item = $this->item($id)->update($key, $value);
-        return $this->storage->replace($id, $item);
+        $item = $this->item($id);
+        $item->update($key, $value);
+        return $this->storage->replace($item);
     }
 
-    public function clear(): bool
+    public function remove(int $id): bool
+    {
+        return $this->storage->remove($id);
+    }
+
+    public function clear()
     {
         return $this->storage->clear();
     }
 
+    /**
+     * Get the total weight of items.
+     *
+     * @return float
+     */
     public function weight(): float
     {
         $weight = 0;
         foreach ($this->contents() as $item) {
-            if (array_key_exists('weight', $item)) {
+            if ($item->weight) {
                 $weight += $item->weight;
             }
         }
@@ -105,7 +117,7 @@ class Basket
     {
         $total = 0;
         foreach ($this->contents() as $item) {
-            $total += $item->total;
+            $total += $item->price;
         }
 
         return $total;
