@@ -3,7 +3,7 @@
     "description": "Shopping basket package",
     "homepage": "https://github.com/aidinov/basket",
     "keywords": ["e-commerce", "shopping"],
-    "license": "Apache 2.0",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "Aidinov Andrei",
