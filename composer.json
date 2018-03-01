@@ -1,4 +1,19 @@
 {
+    "name": "aidinov/basket",
+    "description": "Shopping basket package",
+    "homepage": "https://github.com/aidinov/basket",
+    "keywords": ["e-commerce", "shopping"],
+    "license": "Apache 2.0",
+    "authors": [
+        {
+            "name": "Aidinov Andrei",
+            "email": "aidinov.andrey@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.0.0"
+    },
     "require-dev": {
         "phpunit/phpunit": "7"
     },
